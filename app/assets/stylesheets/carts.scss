@@ -41,4 +41,12 @@
   input[type="submit"]:hover {
     background-color: #992;
   }
+  .checkout{
+    margin: 0 0 0 3px;
+  }
+  .flex_buttons{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+  }
 }
