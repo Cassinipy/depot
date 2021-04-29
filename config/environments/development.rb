@@ -38,6 +38,18 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  config.action_mailer.delivery_method = :smtp
+
+  config.action_mailer.smtp_settings = {
+    user_name: 'apikey', # This is the string literal 'apikey', NOT the ID of your API key
+    password: 'b1809ed51ae6fc555e0ad7b5b9ce1b0c-a09d6718-9845cb9e', # This is the secret sendgrid API key which was issued during API key creation
+    domain: 'https://api.mailgun.net/v3/sandbox4c17a2b08e124078aceafa3510169508.mailgun.org',
+    address: 'smtp.mailgun.org',
+    port: 587,
+    authentication: :plain,
+    enable_starttls_auto: true
+  }
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
