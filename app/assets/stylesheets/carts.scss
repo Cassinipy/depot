@@ -12,7 +12,7 @@
     white-space: nowrap;
   }
   td.quantity::after {
-    content: " Г—";
+    content: " x ";
   }
   td.price {
     font-weight: bold;

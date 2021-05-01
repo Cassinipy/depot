@@ -23,7 +23,7 @@ class LineItemsControllerTest < ActionDispatch::IntegrationTest
     follow_redirect!
 
     assert_select 'h2', 'Your Cart'
-    assert_select 'div', "Programming Ruby 1.9"
+    assert_select 'td', "Programming Ruby 1.9"
   end
 
   test "should show line_item" do
@@ -54,6 +54,6 @@ class LineItemsControllerTest < ActionDispatch::IntegrationTest
         xhr: true
     end
     assert_response :success
-    assert_match /<div class=\\"line-item-highlight/, @response.body
+    assert_match /<tr class=\\"line-item-highlight/, @response.body
   end
 end
