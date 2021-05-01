@@ -10,8 +10,9 @@ module MyDepot
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
+    config.eager_load_paths << "#{Rails.root}/lib/path"
     config.filter_parameters += [:credit_cart_number]
-
+    config.require_master_key = true
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

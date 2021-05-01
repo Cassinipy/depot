@@ -35,7 +35,7 @@ class OrdersTest < ApplicationSystemTestCase
 
     assert_no_selector "#order_routing_number"
 
-    select 'Check', from: 'Pay type'
+    select 'Check', from: 'order[pay_type]'
 
 
     assert_selector "#order_routing_number"
