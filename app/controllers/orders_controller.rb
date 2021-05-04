@@ -16,6 +16,8 @@ class OrdersController < ApplicationController
   # GET /orders/new
   def new
     @order = Order.new
+    @pay_types = []
+    PayType.select(:pay_type).all.to_a.each { |i| @pay_types << i.pay_type}
   end
 
   # GET /orders/1/edit
@@ -69,7 +71,7 @@ class OrdersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def order_params
-      params.require(:order).permit(:name, :address, :email, :pay_type)
+      params.require(:order).permit(:name, :address, :email, :pay_type_id)
     end
 
     def ensure_cart_isnt_empty
