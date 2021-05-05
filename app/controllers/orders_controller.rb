@@ -16,8 +16,8 @@ class OrdersController < ApplicationController
   # GET /orders/new
   def new
     @order = Order.new
-    @pay_types = []
-    PayType.select(:pay_type).all.to_a.each { |i| @pay_types << i.pay_type}
+    @pay_types = PayType.collect_column(:pay_type)
+    # PayType.select(:pay_type).all.to_a.each { |i| @pay_types << i.pay_type}
   end
 
   # GET /orders/1/edit
@@ -26,7 +26,8 @@ class OrdersController < ApplicationController
 
   # POST /orders or /orders.json
   def create
-    @order = Order.new(order_params)
+    pay_type = PayType.find_by(pay_type: params[:order][:pay_type])
+    @order = pay_type.orders.build(order_params)
     @order.add_line_items_from_cart(@cart)
     respond_to do |format|
       if @order.save
@@ -71,7 +72,8 @@ class OrdersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def order_params
-      params.require(:order).permit(:name, :address, :email, :pay_type_id)
+      
+      params.require(:order).permit(:name, :address, :email)
     end
 
     def ensure_cart_isnt_empty
