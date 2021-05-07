@@ -27,16 +27,21 @@ class OrdersController < ApplicationController
   # POST /orders or /orders.json
   def create
     pay_type = PayType.find_by(pay_type: params[:order][:pay_type])
-    @order = pay_type.orders.build(order_params)
-    @order.add_line_items_from_cart(@cart)
     respond_to do |format|
-      if @order.save
-        Cart.destroy(session[:cart_id])
-        session[:cart_id] = nil
-        format.html { redirect_to store_index_url, notice: "Thank you for your order!" }
-        format.json { render :show, status: :created, location: @order }
+      if pay_type
+        @order = pay_type.orders.build(order_params)
+        @order.add_line_items_from_cart(@cart)
+        if @order.save
+          Cart.destroy(session[:cart_id])
+          session[:cart_id] = nil
+          format.html { redirect_to store_index_url, notice: "Thank you for your order!" }
+          format.json { render :show, status: :created, location: @order }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @order.errors }
+        end
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { redirect_to new_order_path, notice: "Wrong pay type" }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
     end
