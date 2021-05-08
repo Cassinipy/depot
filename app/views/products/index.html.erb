@@ -27,6 +27,7 @@ length: 80) %>
         <ul>
           <li><%= link_to 'Show', product %></li>
           <li><%= link_to 'Edit', edit_product_path(product) %></li>
+          <li><%= link_to 'Who bought', who_bought_product_path(product.id, format: 'json') %></li>
           <li>
             <%= link_to 'Destroy',
 product,
