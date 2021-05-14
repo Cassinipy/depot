@@ -5,5 +5,9 @@
 <% end %>
   <td class="quantity"><%= line_item.quantity %></td>
   <td><%= line_item.product.title %></td>
-  <td class="price"><%= number_to_currency(line_item.total_price) %></td>
+  <% if I18n.locale == :uk %>
+    <td class="price"><%= number_to_currency(line_item.total_price * 27.7, locale: I18n.locale.to_sym, unit: '₴') %></td>
+  <% else %>
+    <td class="price"><%= number_to_currency(line_item.total_price) %></td>
+  <% end %>
 </tr>

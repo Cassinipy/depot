@@ -1,5 +1,6 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[ show edit update destroy ]
+  before_action :authenticate, only: :who_bought
 
   # GET /products or /products.json
   def index
@@ -57,7 +58,8 @@ class ProductsController < ApplicationController
       format.json { head :no_content }
     end
   end
-  def who_bought 
+
+  def who_bought
     @product = Product.find(params[:id])
     @latest_order = @product.orders.order(:updated_at).last
     if stale?(@latest_order)
@@ -75,6 +77,13 @@ class ProductsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def product_params
-      params.require(:product).permit(:title, :description, :image_url, :price)
+      params.require(:product).permit(:title, :description, :image_url, :price, :locale)
     end
+
+    def authenticate
+      authenticate_or_request_with_http_basic do |name, password|
+      name == "dave" && password == "secret"
+      end
+    end
+    
 end
